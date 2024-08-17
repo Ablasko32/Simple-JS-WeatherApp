@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/output.css" />
+    <title>Weather APP</title>
+  </head>
+  <body>
+    <h1 class="text-red-700">Welocme to weather app</h1>
+
+    <form action="/get-geocode" method="POST">
+      <input type="text" name="cityName" />
+      <input type="submit" value="GET GEO" />
+    </form>
+
+    <!-- results -->
+    <% if(locals.cityData){ %> <% cityData.forEach(element => { %>
+
+    <p><%= element.name %></p>
+    <p><%= element.country %></p>
+    <p><%= element.country_code %></p>
+    <p>Lat: <%= element.latitude %></p>
+    <p>Long: <%= element.longitude %></p>
+    <p>________________________</p>
+
+    <% }); %>
+    <h1><%= cityData.name %></h1>
+    <% }else{ %>
+    <p>Search city</p>
+    <% } %>
+  </body>
+</html>
