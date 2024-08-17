@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+  </head>
+  <body>
+    <h1>
+      Your are now viewing weather for <%= data.name %>, <%= data.sys.country %>
+    </h1>
+    <img
+      src="https://openweathermap.org/img/wn/<%=data.weather[0].icon  %>.png"
+    />
+    <p>Weather is: <%= data.weather[0].main %></p>
+    <p>Description: <%= data.weather[0].description %></p>
+    <p>Temeprature is: <%= Math.floor( data.main.temp - 273.15) %> °C</p>
+    <p>
+      Sunrise: <%= new Date(data.sys.sunrise * 1000).toLocaleString([],{ hour:
+      'numeric', minute: '2-digit' }) %>
+    </p>
+    <p>
+      Sunset: <%= new Date(data.sys.sunset * 1000).toLocaleString([],{ hour:
+      'numeric', minute: '2-digit' }) %>
+    </p>
+  </body>
+</html>
