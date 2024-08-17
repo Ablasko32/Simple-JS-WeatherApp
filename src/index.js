@@ -3,7 +3,7 @@ import axios from "axios";
 import bodyParser from "body-parser";
 
 const app = express();
-const defaultPort = 3000;
+const defaultPort = 8000;
 const weatherApiKey = "76605bccce9c05d9a36b433e5dc8d9d6";
 
 app.use(express.static("public"));
@@ -30,12 +30,32 @@ app.post("/get-weather", async (req, res) => {
     const result = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${weatherApiKey}`
     );
-    res.render("weather.ejs", { data: result.data });
+    const forecast = await axios.get(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${weatherApiKey}`
+    );
+    const forecastList = forecast.data.list;
+
+    const uniqueDates = new Set();
+    const filteredForecast = [];
+
+    forecastList.forEach((element) => {
+      const dateString = element.dt_txt.split(" ")[0];
+
+      if (!uniqueDates.has(dateString)) {
+        uniqueDates.add(dateString);
+        filteredForecast.push(element);
+      }
+    });
+
+    res.render("weather.ejs", {
+      data: result.data,
+      forecast: filteredForecast,
+    });
   } catch (err) {
     console.log(err);
   }
 });
 
-app.listen(defaultPort, () => {
+app.listen(defaultPort, "0.0.0.0", () => {
   console.log(`App is running on port: ${defaultPort}`);
 });
