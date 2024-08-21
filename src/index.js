@@ -1,16 +1,17 @@
 import express from "express";
 import axios from "axios";
 import bodyParser from "body-parser";
+import "dotenv/config";
 
 const app = express();
 const defaultPort = 8000;
-const weatherApiKey = "76605bccce9c05d9a36b433e5dc8d9d6";
+const weatherApiKey = process.env.API_KEY;
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  res.render("weather.ejs");
 });
 
 app.post("/get-geocode", async (req, res) => {
@@ -19,7 +20,7 @@ app.post("/get-geocode", async (req, res) => {
     const response = await axios.get(
       "https://geocoding-api.open-meteo.com/v1/search?name=" + cityName
     );
-    res.render("index.ejs", { cityData: response.data.results });
+    res.render("weather.ejs", { cityData: response.data.results });
   } catch (err) {
     console.log(err);
   }

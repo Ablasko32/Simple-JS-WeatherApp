@@ -2,7 +2,15 @@
 export default {
   content: ["./views/**/*.ejs"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Roboto", "sans-serif"],
+        serif: ["Exo 2", "sans-serif"],
+      },
+      backgroundImage: {
+        "hero-img-moon": "url('/moon.jpg')",
+      },
+    },
   },
   plugins: [],
 };
